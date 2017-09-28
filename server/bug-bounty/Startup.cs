@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Proxy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -34,14 +36,23 @@ namespace bug_bounty
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.MapWhen(IsNotApi, builder => builder.RunProxy(new ProxyOptions
+                {
+                    Scheme = "http",
+                    Host = "localhost",
+                    Port = "8080",
+                }));
+            }
+            else
+            {
+                app.UseDefaultFiles();
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                    RequestPath = new PathString(""),
+                });
             }
 
-            app.MapWhen(IsNotApi, builder => builder.RunProxy(new ProxyOptions
-            {
-                Scheme = "http",
-                Host = "localhost",
-                Port = "8080",
-            }));
             app.UseMvc();
         }
 

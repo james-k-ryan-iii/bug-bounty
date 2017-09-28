@@ -12,4 +12,11 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <WebAssets Include="../../client/dist/**" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+  <Target Name="MakeWWWRoot" AfterTargets="Publish">
+    <MakeDir Directories="$(PublishDir)wwwroot" />
+    <Copy SourceFiles="@(WebAssets)" DestinationFiles="@(WebAssets->'$(PublishDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
 </Project>
