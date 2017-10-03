@@ -3,6 +3,10 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import VueMaterial from '../node_modules/vue-material';
+import '../node_modules/vue-material/dist/vue-material.css';
+
+Vue.use(VueMaterial);
 
 Vue.config.productionTip = false;
 
