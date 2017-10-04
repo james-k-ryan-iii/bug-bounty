@@ -22,4 +22,8 @@
     <MakeDir Directories="$(PublishDir)wwwroot" />
     <Copy SourceFiles="@(WebAssets)" DestinationFiles="@(WebAssets->'$(PublishDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
+  <Target Name="RemoveDevelopmentAssets" AfterTargets="Publish">
+    <Exec Command="rm -r ../../client/node_modules" />
+    <Exec Command="rm -r bin" />
+  </Target>
 </Project>
