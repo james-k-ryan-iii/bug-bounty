@@ -15,7 +15,10 @@
   <ItemGroup>
     <WebAssets Include="../../client/dist/**" CopyToPublishDirectory="Always" />
   </ItemGroup>
-  <Target Name="MakeWWWRoot" AfterTargets="Publish">
+  <Target Name="PublishClientApp" AfterTargets="Publish">
+    <Exec Command="cd ../../client &amp;&amp; npm install" />
+    <Exec Command="npm --prefix ../../client run build" />
+
     <MakeDir Directories="$(PublishDir)wwwroot" />
     <Copy SourceFiles="@(WebAssets)" DestinationFiles="@(WebAssets->'$(PublishDir)wwwroot\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
