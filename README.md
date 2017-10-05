@@ -16,7 +16,7 @@ The following dependencies are required for building the project:
 You can run the project from the root folder with:
 
 ```
-npm install
+cd client && npm install && cd ../server && dotnet restore && cd ..
 npm run start
 ```
 
