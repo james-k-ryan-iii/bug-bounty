@@ -12,4 +12,15 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
+  <Target Name="PublishClientApp" AfterTargets="Publish">
+    <Exec Command="cd ../../client &amp;&amp; npm install" />
+    <Exec Command="npm --prefix ../../client run build" />
+
+    <MakeDir Directories="$(PublishDir)wwwroot" />
+    <Exec Command="cp -r ../../client/dist/* $(PublishDir)wwwroot" />
+  </Target>
+  <Target Name="RemoveDevelopmentAssets" AfterTargets="Publish">
+    <Exec Command="rm -r ../../client/node_modules" />
+    <Exec Command="rm -r bin" />
+  </Target>
 </Project>
