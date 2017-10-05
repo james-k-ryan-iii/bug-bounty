@@ -1,18 +1,41 @@
 <template>
-  <div id="issue-container">
-    <div v-for="issue in issues" :key="issue.title" class="issue-tag">
-      {{ issue.title }}
-    </div>
-  </div>
-
+  <md-list class="issue-list md-triple-line">
+     <md-list-item v-for="issue in issues" :key="issue.title" >
+      <IssueCard></IssueCard>
+      <md-divider class="md-inset"></md-divider>
+    </md-list-item>
+  </md-list>
 </template>
 
 <script>
+import IssueCard from './IssueCard';
+
 export default {
   name: 'IssueList',
+  components: {
+    IssueCard,
+  },
   data() {
     return {
       issues: [
+        {
+          title: 'test',
+        },
+        {
+          title: 'foo',
+        },
+        {
+          title: 'bar',
+        },
+        {
+          title: 'baz',
+        },
+        {
+          title: 'bar',
+        },
+        {
+          title: 'baz',
+        },
         {
           title: 'test',
         },
@@ -58,22 +81,8 @@ a {
   color: #42b983;
 }
 
-#issue-container {
-  display: flex;
-  flex: 1 1 0;
+.issue-list {
+  width: 50%;
   overflow-y: auto;
-  height: 0px;
-  flex-direction: column;
-  width: 75%;
-  justify-content: center;
-  align-items: center;
-}
-
-.issue-tag {
-  flex: 0 0 auto;
-  width: 75%;
-  margin: 50px;
-  height: 100px;
-  border: 1px solid gray;
 }
 </style>
