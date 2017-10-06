@@ -4,3 +4,4 @@ dist
 node_modules
 *.suo
 .vscode
+npm-debug.log
