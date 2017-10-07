@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <md-tabs md-centered @change="goToRoute">
-      <md-tab v-for="tab in tabs"
-              :key="tab.label"
-              :md-label="tab.label"
-              :md-active="isPath(tab.path)">
-      </md-tab>
-    </md-tabs>
+    <div class="sidenav">
+      <md-button v-for="tab in tabs" 
+                 :key="tab.label"
+                 @click="goToRoute(tab.path)">
+        {{tab.label}}
+      </md-button>
+    </div>  
     <router-view></router-view>
   </div>
 </template>
@@ -17,25 +17,28 @@ export default {
     return {
       tabs: [
         {
+          label: 'Profile',
+          path: '/foo',
+        },
+        {
           label: 'Issues',
           path: '/',
         },
         {
-          label: 'Foo',
-          path: '/foo',
-        },
-        {
-          label: 'Bar',
+          label: 'Create Issue',
           path: '/bar',
         },
         {
-          label: 'Baz',
+          label: 'Community',
+          path: '/baz',
+        },
+        {
+          label: 'Contact us',
           path: '/baz',
         },
       ],
-      isPath: path => this.$route.path === path,
-      goToRoute: (index) => {
-        this.$router.replace(this.tabs[index].path);
+      goToRoute: (path) => {
+        this.$router.replace(path);
       },
     };
   },
@@ -57,34 +60,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
   height: 100%;
   widows: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: hidden;
+  flex-direction: row;
 }
 </style>
 
 <style scoped>
-#tab-list {
+.sidenav{
+  background-color: black;
+  color: white;
+  width: 150px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  border: 1px solid black;
-
-  width: 50%;
-  height: 20px;
-}
-
-.tab {
-  flex: 1 1 0;
-  border-top: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-}
-
-.tab:hover {
-  background-color: gray;
+  flex-direction: column;
 }
 </style>

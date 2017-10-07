@@ -1,60 +1,38 @@
 <template>
-  <md-list class="issue-list md-triple-line">
-     <md-list-item v-for="issue in issues" :key="issue.title" >
-      <IssueCard></IssueCard>
-      <md-divider class="md-inset"></md-divider>
-    </md-list-item>
-  </md-list>
+  <div class="container">
+    <div class="issue-container">
+      <md-theme md-name="inverse">
+        <md-tabs>
+          <md-tab id="issues" md-label="Issues"></md-tab>
+          <md-tab id="claimed" md-label="In Progress"></md-tab>
+          <md-tab id="completed" md-label="Completed"></md-tab>
+        </md-tabs>
+      </md-theme>
+      <md-list class="issue-list md-triple-line">
+        <md-list-item v-for="issue in issues" :key="issue.title">
+          <issue-card></issue-card>
+          <md-divider class="md-inset"></md-divider>
+        </md-list-item>
+      </md-list>
+    </div>
+    <filter-control></filter-control>
+  </div>
 </template>
 
 <script>
 import IssueCard from './IssueCard';
+import FilterControl from './FilterControl';
+import ds from '../services/data.service';
 
 export default {
   name: 'IssueList',
   components: {
     IssueCard,
+    FilterControl,
   },
   data() {
     return {
-      issues: [
-        {
-          title: 'test',
-        },
-        {
-          title: 'foo',
-        },
-        {
-          title: 'bar',
-        },
-        {
-          title: 'baz',
-        },
-        {
-          title: 'bar',
-        },
-        {
-          title: 'baz',
-        },
-        {
-          title: 'test',
-        },
-        {
-          title: 'foo',
-        },
-        {
-          title: 'bar',
-        },
-        {
-          title: 'baz',
-        },
-        {
-          title: 'bar',
-        },
-        {
-          title: 'baz',
-        },
-      ],
+      issues: ds.getIssueList(),
       msg: 'Welcome to Your Vue.js App',
     };
   },
@@ -63,7 +41,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 
@@ -82,7 +61,15 @@ a {
 }
 
 .issue-list {
-  width: 50%;
+  flex: 2;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.issue-container {
   overflow-y: auto;
 }
 </style>
