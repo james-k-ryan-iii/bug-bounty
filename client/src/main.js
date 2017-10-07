@@ -7,6 +7,17 @@ import VueMaterial from '../node_modules/vue-material';
 import '../node_modules/vue-material/dist/vue-material.css';
 
 Vue.use(VueMaterial);
+Vue.material.registerTheme({
+  default: {
+    primary: 'black',
+    accent: 'white',
+  },
+  inverse: {
+    primary: 'white',
+    accent: 'black',
+    background: 'black',
+  },
+});
 
 Vue.config.productionTip = false;
 

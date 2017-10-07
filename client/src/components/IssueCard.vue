@@ -9,7 +9,7 @@
       <span class="md-body-2">Why does this code not work?  THis is very bad wrong and I would like it 
         if one of you nice people would come and fix my issue for free, no $$$$
       </span>
-      <md-chips md-static=true>
+      <md-chips>
         <md-chip v-for="chip in getChipList()" :key="chip.label">
           {{chip.label}}
         </md-chip>
