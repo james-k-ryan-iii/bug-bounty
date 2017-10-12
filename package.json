@@ -4,7 +4,11 @@
   "description": "Track and gamify public contributions to projects.",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"NO_BROWSER=true npm --prefix client run start\" \"ASPNETCORE_ENVIRONMENT=Development dotnet run --project server/bug-bounty/bug-bounty.csproj\"",
+    "postinstall": "npm run install:client && npm run install:server",
+    "install:client": "cd client && npm install",
+    "install:server": "cd server && npm install",
+    "build": "npm --prefix client run build",
+    "start": "concurrently \"NO_BROWSER=true npm --prefix client run start\" \"node server/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
