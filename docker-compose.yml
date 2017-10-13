@@ -1,0 +1,13 @@
+version: "3.2"
+services:
+  node:
+    image: "node:6"
+    user: "node"
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - 5000:5000
+    command: "./docker-run.sh"
+  mongodb:
+    image: mongo
