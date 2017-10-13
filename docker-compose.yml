@@ -4,10 +4,8 @@ services:
     image: "node:6"
     user: "node"
     working_dir: /app
-    environment:
-      - NODE_ENV=production
     volumes:
-      - ./:/app
+      - .:/app
     ports:
       - 5000:5000
     command: "./docker-run.sh"
