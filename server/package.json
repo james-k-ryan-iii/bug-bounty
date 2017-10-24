@@ -11,10 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
-    "mongodb": "^2.2.33"
+    "express-validator": "^4.2.1",
+    "github-api": "^3.0.0",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.12.3"
   },
   "devDependencies": {
-    "http-proxy-middleware": "^0.17.4"
+    "http-proxy-middleware": "^0.17.4",
+    "swagger-jsdoc": "^1.9.7"
   }
 }
