@@ -9,7 +9,6 @@ const isValidBounty = [
 module.exports = function(app, bounties, gitHub) {
   app.get('/api/v1/bounties', getBounties);
   app.post('/api/v1/bounties', [isValidBounty], enforceValidation.bind(null, addBounty));
-  app.post('/api/v1/bounties/:id/assign', assignBounty);
 
   function getBounties(req, res) {
     bounties.find({}).then((bounties) => {
@@ -74,9 +73,5 @@ module.exports = function(app, bounties, gitHub) {
       res.json(result);
       res.end();
     });
-  }
-
-  function assignBounty(req, res) {
-
   }
 }
