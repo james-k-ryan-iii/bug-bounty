@@ -37,7 +37,7 @@ module.exports = function(app, bounties, gitHub) {
       const newBounty = {
         title: issueData.title,
         body: issueData.body,
-        author: issueData.user.login,
+        authorId: issueData.user.id,
         postedOn: new Date(),
         postedBy: 'test-user',
         assignedTo: 'test-user',
