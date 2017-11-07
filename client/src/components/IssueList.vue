@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="issue-container">
+    <div>
       <md-theme md-name="inverse">
         <md-tabs>
           <md-tab id="issues" md-label="Issues"></md-tab>
@@ -41,35 +41,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
 .issue-list {
   flex: 2;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .container {
   display: flex;
   width: 100%;
-}
-
-.issue-container {
-  overflow-y: auto;
 }
 </style>

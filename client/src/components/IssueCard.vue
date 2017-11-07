@@ -1,10 +1,10 @@
 <template>
-  <div class="issue-card">
+  <md-list-item @click="toggleCard()">
     <md-avatar>
       <img src="../assets/githublogo.png">
     </md-avatar>
 
-    <div class="md-list-text-container">
+    <div class="md-list-text-container" v-bind:class="{open: isOpen}">
       <span class="md-title">New code causes segfault when I do something stupid</span>
       <span class="md-body-2">Why does this code not work?  THis is very bad wrong and I would like it 
         if one of you nice people would come and fix my issue for free, no $$$$
@@ -15,7 +15,7 @@
         </md-chip>
       </md-chips>
     </div>
-  </div>
+  </md-list-item>
 </template>
 
 <script>
@@ -23,6 +23,7 @@ export default {
   name: 'IssueCard',
   data() {
     return {
+      isOpen: false,
       getChipList() {
         return [
           {
@@ -39,19 +40,16 @@ export default {
           },
         ];
       },
+      toggleCard() {
+        this.isOpen = !this.isOpen;
+      },
     };
   },
 };
 </script>
 
 <style scoped>
-
-.issue-card {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
-  margin: 5px;
+.open {
+  height: 500px;
 }
-
 </style>
