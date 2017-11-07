@@ -1,30 +1,76 @@
-module.exports = class BountiesController {
-  constructor(app, connect) {
-    this._app = app;
-    this._connect = connect;
-    this._collection = 'bounties';
+const { check } = require('express-validator/check');
+const { enforceValidation, returnError } = require('../helpers/api.js');
 
-    app.get('/api/v1/bounties', this.getBounties.bind(this))
-  }
+const parseGitHubIssueUrl = /github.com\/([^\/]+)\/([^\/]+)\/issues\/([0-9]+)$/;
+const isValidBounty = [
+  check('gitHubIssueUrl').matches(parseGitHubIssueUrl),
+];
 
-  /**
-   * @swagger
-   * Route: /api/v1/bounties
-   */
-  getBounties(req, res) {
-    this._connect().then((db) => {
-      const bounties = db.collection(this._collection);
-      return bounties.find({}).toArray();
-    }).then((bounties) => {
+module.exports = function(app, bounties, gitHub) {
+  app.get('/api/v1/bounties', getBounties);
+  app.post('/api/v1/bounties', [isValidBounty], enforceValidation.bind(null, addBounty));
+
+  function getBounties(req, res) {
+    bounties.find({}).then((bounties) => {
+      res.write(JSON.stringify(bounties));
       res.status(200);
-      res.write(JSON.stringify(bugs));
       res.end();
     }).catch((error) => {
-      res.status(500);
-      res.write(JSON.stringify({
+      res.write({
         error,
         message: 'Failed to look up bounties in database.',
-      }));
+      });
+      res.status(500);
+      res.end();
+    });
+  }
+
+  function addBounty(req, res) {
+    const parsed = parseGitHubIssueUrl.exec(req.body.gitHubIssueUrl);
+    const issueId = parseInt(parsed[3], 10)
+    const owner = parsed[1];
+    const repo = parsed[2];
+
+    gitHub.getIssues(owner, repo).getIssue(issueId).catch((error) => {
+      if (error && error.status === 404) {
+        res.json({
+          code: 'E_INVALID_ISSUE',
+          error,
+        });
+        res.status(400);
+        res.end();
+      }
+
+      res.json({
+        error: 'E_LOAD_ISSUE_FAILED',
+        error,
+      });
+      res.status(500);
+      res.end();
+    }).then((response) => {
+      const issueData = response.data;
+      const newBounty = {
+        title: issueData.title,
+        body: issueData.body,
+        authorId: issueData.user.id,
+        postedOn: new Date(),
+        status: 'Open',
+        gitReference: {
+          gitHubIssueUrl: req.body.gitHubIssueUrl,
+        },
+      };
+
+      return bounties.create(newBounty);
+    }).catch((error) => {
+      res.json({
+        code: 'E_CREATE_ISSUE_FAILED',
+        error,
+      });
+      res.status(500);
+      res.end();
+    }).then((result) => {
+      res.status(200);
+      res.json(result);
       res.end();
     });
   }
