@@ -7,10 +7,10 @@
 
 <script>
 export default {
-  name: 'User',
+  name: 'Contact',
   data() {
     return {
-      msg: 'This is your user profile page.',
+      msg: 'Please don\'t contact us',
     };
   },
 };

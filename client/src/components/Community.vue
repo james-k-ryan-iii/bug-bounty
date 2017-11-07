@@ -7,10 +7,10 @@
 
 <script>
 export default {
-  name: 'User',
+  name: 'Community',
   data() {
     return {
-      msg: 'This is your user profile page.',
+      msg: 'Our community sucks :P',
     };
   },
 };

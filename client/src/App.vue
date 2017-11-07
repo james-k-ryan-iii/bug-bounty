@@ -18,7 +18,7 @@ export default {
       tabs: [
         {
           label: 'Profile',
-          path: '/foo',
+          path: '/u',
         },
         {
           label: 'Issues',
@@ -26,15 +26,15 @@ export default {
         },
         {
           label: 'Create Issue',
-          path: '/bar',
+          path: '/new_issue',
         },
         {
           label: 'Community',
-          path: '/baz',
+          path: '/community',
         },
         {
           label: 'Contact us',
-          path: '/baz',
+          path: '/contact',
         },
       ],
       goToRoute: (path) => {
