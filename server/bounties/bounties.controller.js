@@ -32,15 +32,29 @@ module.exports = function(app, bounties, gitHub) {
     const owner = parsed[1];
     const repo = parsed[2];
 
-    gitHub.getIssues(owner, repo).getIssue(issueId).then((response) => {
+    gitHub.getIssues(owner, repo).getIssue(issueId).catch((error) => {
+      if (error && error.status === 404) {
+        res.json({
+          code: 'E_INVALID_ISSUE',
+          error,
+        });
+        res.status(400);
+        res.end();
+      }
+
+      res.json({
+        error: 'E_LOAD_ISSUE_FAILED',
+        error,
+      });
+      res.status(500);
+      res.end();
+    }).then((response) => {
       const issueData = response.data;
       const newBounty = {
         title: issueData.title,
         body: issueData.body,
         authorId: issueData.user.id,
         postedOn: new Date(),
-        postedBy: 'test-user',
-        assignedTo: 'test-user',
         status: 'Open',
         gitReference: {
           gitHubIssueUrl: req.body.gitHubIssueUrl,
@@ -48,16 +62,16 @@ module.exports = function(app, bounties, gitHub) {
       };
 
       return bounties.create(newBounty);
-    }).then((result) => {
-      res.status(200);
-      res.json(result);
-      res.end();
     }).catch((error) => {
       res.json({
-        code: 'E_INVALID_ISSUE',
+        code: 'E_CREATE_ISSUE_FAILED',
         error,
       });
       res.status(500);
+      res.end();
+    }).then((result) => {
+      res.status(200);
+      res.json(result);
       res.end();
     });
   }
