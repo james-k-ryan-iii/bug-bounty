@@ -2,15 +2,15 @@
   <div class="container">
     <div>
       <md-theme md-name="inverse">
-        <md-tabs>
-          <md-tab id="issues" md-label="Issues"></md-tab>
-          <md-tab id="claimed" md-label="In Progress"></md-tab>
-          <md-tab id="completed" md-label="Completed"></md-tab>
-        </md-tabs>
+        <md-button v-for="tab in tabs" 
+                 :key="tab"
+                 @click="populateIssueList(tab)">
+          {{tab}}
+        </md-button>
       </md-theme>
       <md-list class="issue-list md-triple-line">
         <md-list-item v-for="issue in issues" :key="issue.title">
-          <issue-card></issue-card>
+          <issue-card data="issue"></issue-card>
           <md-divider class="md-inset"></md-divider>
         </md-list-item>
       </md-list>
@@ -22,7 +22,7 @@
 <script>
 import IssueCard from './IssueCard';
 import FilterControl from './FilterControl';
-import ds from '../services/data.service';
+import DataService from '../services/data.service';
 
 export default {
   name: 'IssueList',
@@ -32,9 +32,23 @@ export default {
   },
   data() {
     return {
-      issues: ds.getIssueList(),
+      issues: [],
       msg: 'Welcome to Your Vue.js App',
+      tabs: ['Issues', 'In Progress', 'Completed'],
     };
+  },
+  methods: {
+    populateIssueList() {
+      DataService.getIssueList().then((resp) => {
+        this.$data.issues = resp;
+        console.log(this.$data.issues.length);
+      });
+    },
+  },
+  mounted() {
+    DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/17');
+    DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/8');
+    DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/7');
   },
 };
 </script>
