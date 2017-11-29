@@ -9,6 +9,22 @@ const isValidBounty = [
 module.exports = function(app, bounties, gitHub) {
   app.get('/api/v1/bounties', getBounties);
   app.post('/api/v1/bounties', [isValidBounty], enforceValidation.bind(null, addBounty));
+  app.delete('/api/v1/bounties', deleteBounties);
+
+  function deleteBounties(req, res) {
+    bounties.collection.drop((err) => {
+      if (err) {
+        res.status(500);
+        res.json({
+          error: err,
+          code: 'Failed to DROP',
+        });
+      } else {
+        res.status(200);
+      }
+      res.end();
+    });
+  }
 
   function getBounties(req, res) {
     bounties.find({}).then((bounties) => {
@@ -16,9 +32,9 @@ module.exports = function(app, bounties, gitHub) {
       res.status(200);
       res.end();
     }).catch((error) => {
-      res.write({
+      res.json({
         error,
-        message: 'Failed to look up bounties in database.',
+        code: 'Failed to look up bounties in database.',
       });
       res.status(500);
       res.end();
