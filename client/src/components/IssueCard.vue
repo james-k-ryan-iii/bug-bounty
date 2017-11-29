@@ -5,9 +5,9 @@
     </md-avatar>
 
     <div class="md-list-text-container" v-bind:class="{open: isOpen}">
-      <span class="md-title">{{title()}}</span>
-      <span class="md-body-2">Why does this code not work?  THis is very bad wrong and I would like it 
-        if one of you nice people would come and fix my issue for free, no $$$$
+      <span class="md-title">{{data.title}}</span>
+      <span class="md-body-2">
+        Here be the title: {{data.title}}
       </span>
       <md-chips>
         <md-chip v-for="chip in getChipList()" :key="chip.label">
@@ -22,12 +22,6 @@
 export default {
   name: 'IssueCard',
   props: ['data'],
-  computed: {
-    title: () => {
-      console.log('test');
-      return this.data && this.data.title;
-    },
-  },
   data() {
     return {
       isOpen: false,
@@ -57,6 +51,7 @@ export default {
 
 <style scoped>
 .open {
+  width: 100%;
   height: 500px;
 }
 </style>

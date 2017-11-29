@@ -1,6 +1,5 @@
 <template>
-  <div class="container">
-    <div>
+    <div class="container">
       <md-theme md-name="inverse">
         <md-button v-for="tab in tabs" 
                  :key="tab"
@@ -9,14 +8,13 @@
         </md-button>
       </md-theme>
       <md-list class="issue-list md-triple-line">
-        <md-list-item v-for="issue in issues" :key="issue.title">
-          <issue-card data="issue"></issue-card>
+        <md-list-item class="issue-card-tile" 
+                      v-for="issue in issues" :key="issue.title">
+          <issue-card :data="issue"></issue-card>
           <md-divider class="md-inset"></md-divider>
         </md-list-item>
       </md-list>
     </div>
-    <filter-control></filter-control>
-  </div>
 </template>
 
 <script>
@@ -34,21 +32,25 @@ export default {
     return {
       issues: [],
       msg: 'Welcome to Your Vue.js App',
-      tabs: ['Issues', 'In Progress', 'Completed'],
+      tabs: ['Issues', 'In Progress', 'Completed', 'CLEAR LIST'],
     };
   },
   methods: {
-    populateIssueList() {
-      DataService.getIssueList().then((resp) => {
-        this.$data.issues = resp;
-        console.log(this.$data.issues.length);
-      });
+    populateIssueList(tab) {
+      if (tab === 'CLEAR LIST') {
+        DataService.deleteIssues();
+      } else {
+        DataService.getIssueList().then((resp) => {
+          this.$data.issues = resp;
+          console.log(this.$data.issues.length);
+        });
+      }
     },
   },
   mounted() {
-    DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/17');
-    DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/8');
-    DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/7');
+    // DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/17');
+    // DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/8');
+    // DataService.addIssue('https://github.com/kazuhiro4949/PagingKit/issues/7');
   },
 };
 </script>
@@ -63,6 +65,12 @@ export default {
 
 .container {
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  width: 75%;
+  margin: 50px;
+}
+
+.issue-card-tile {
+  width: 100% !important;
 }
 </style>
